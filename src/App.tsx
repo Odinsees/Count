@@ -1,63 +1,64 @@
-import React, {useEffect, useState} from 'react';
-import {Button} from "./Components/Button";
-import s from "./App.module.css";
-import {Number} from "./Components/Number";
+import React, {ChangeEvent, useEffect, useState} from 'react';
+
+import {NumberWindow} from "./Components/NumberWindow/NumberWindow";
+import {ValueWindow} from "./Components/ValueWindow/ValueWindow";
 
 const App = () => {
 
-    const startValue = 0
-    const maxValue = 5
-    const [count, setCount] = useState(startValue)
-    //const onChangeHandler = (e: ChangeEvent<HTMLInputElement>): void => setCount(+e.currentTarget.value)
-    const countUpHandler = (): boolean | void => count < maxValue && setCount(count => count + 1)
-    const countResetHandler = (): void => setCount(startValue)
+    let [maxValue, setMaxValue] = useState(0)
+    let [startValue, setStartValue] = useState(0)
+    let [error, setError] = useState(false)
 
-    useEffect(()=>{
+    useEffect(() => {
         getLocalStorageHandler()
-    },[])
+    }, [])
 
-    useEffect(()=>{
-        setLocalStorageHandler()
-    },[count])
-
-    const setLocalStorageHandler = () => {
-        localStorage.setItem("counterValue", JSON.stringify(count))
-    }
     const getLocalStorageHandler = () => {
-        let value = localStorage.getItem("counterValue")
-        if (value) {
-            setCount(JSON.parse(value))
+        let startValue = localStorage.getItem("startValue")
+        let maxValue = localStorage.getItem("maxValue")
+        if (startValue && maxValue) {
+            setStartValue(JSON.parse(startValue))
+            setMaxValue(JSON.parse(maxValue))
         }
     }
-    const isAddDisabled = count === maxValue
-    const isResetDisabled = count < maxValue
+
+
+    const setMaxValueHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        if (+e.currentTarget.value >= 0) {
+            setMaxValue(+e.currentTarget.value)
+            setError(false)
+        } else {
+            setError(true)
+        }
+    }
+    const setStartValueHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        if (+e.currentTarget.value >= 0) {
+            setStartValue(+e.currentTarget.value)
+            setError(false)
+        } else {
+            setError(true)
+        }
+    }
+
+    const setItemInLocalStorage = () => {
+        localStorage.setItem("maxValue", JSON.stringify(maxValue))
+        localStorage.setItem("startValue", JSON.stringify(startValue))
+    }
 
     return (
-        <div className={s.Fon}>
-            <div className={s.Content}>
-                <div className={s.Input}>
-                    <Number
-                        maxValue={maxValue}
-                        value={count}
-                    />
-                </div>
-                <div className={s.Button}>
-                    <div className={s.addButton}>
-                        <Button
-                            title={"inc"}
-                            callBack={countUpHandler}
-                            disabled={isAddDisabled}
-                        />
-                    </div>
-                    <div className={s.resetButtons}>
-                        <Button
-                            title={"reset"}
-                            callBack={countResetHandler}
-                            disabled={isResetDisabled}
-                        />
-                    </div>
-                </div>
-            </div>
+        <div>
+            <NumberWindow
+                maxValue={maxValue}
+                startValue={startValue}
+            />
+            <ValueWindow
+                SetMaxValueCallBack={setMaxValueHandler}
+                SetStartValueCallBack={setStartValueHandler}
+                setItemInLocalStageCallBack={setItemInLocalStorage}
+                maxValue={maxValue}
+                startValue={startValue}
+                error={error}
+            />
         </div>
     )
 }

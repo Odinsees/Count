@@ -2,16 +2,6 @@ input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     -webkit-appearance: none;
 }
-/*
-input[type="number"] {
-    padding: 0 0 0 0;
-    text-align: center;
-    font-size: 50px;
-    width: auto;
-    background-color: gray;
-    border: none;
-}*/
-
 
 .content{
     background-color: gray;
@@ -53,29 +43,4 @@ input[type="number"] {
     border: none;
 }
 
-.addButton{
-    /*grid-area: added;*/
-    grid-column-start: 1;
-    grid-column-end: 1;
-    grid-row-start: 2;
-    grid-row-end: 2;
-    text-align: right;
-}
-
-.removeButton{
-    /*grid-area: remove;*/
-    grid-column-start: 2;
-    grid-column-end: 2;
-    grid-row-start: 2;
-    grid-row-end: 2;
-    text-align: left;
-}
-
-.resetButtons{
-    /*grid-area: reset;*/
-    grid-column-start: 1;
-    grid-column-end: 3;
-    grid-row-start: 3;
-    grid-row-end: 3;
-}
 
