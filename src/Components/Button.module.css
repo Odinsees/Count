@@ -1,0 +1,26 @@
+.button {
+    text-align: center;
+    border-radius: 10px;
+    border: none;
+    margin: 20px 0 20px 0;
+    background-color: skyblue;
+    font-size: 55px;
+    color: #15222c;
+    font-weight: 600;
+}
+
+.disabled {
+    text-align: center;
+    border-radius: 10px;
+    border: none;
+    margin: 20px 0 20px 0;
+    font-size: 55px;
+    color: #15222c;
+    font-weight: 600;
+    background-color: #375969;
+}
+
+button{
+    width: 100%;
+}
+
