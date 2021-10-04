@@ -4,9 +4,10 @@ import s from "./Input.module.css";
 type PropsType = {
     value: number
     callBack: (e: ChangeEvent<HTMLInputElement>) => void
+    error:boolean
 }
 
-export const Input: React.FC<PropsType> = ({value, callBack}) => {
+export const Input: React.FC<PropsType> = ({value, callBack,error}) => {
 
     const OnChangeHandler = (e:ChangeEvent<HTMLInputElement>) =>{
         callBack(e)
@@ -14,9 +15,8 @@ export const Input: React.FC<PropsType> = ({value, callBack}) => {
 
     return (
         <input
-            //className={value === maxValue ? s.InputMax : ""}
+            className={error? `${s.Input}+${s.ErrorInput}` : s.Input}
             type="number"
-            //pattern="^[ 0-9]+$"
             value={value}
             onChange={OnChangeHandler}
         />

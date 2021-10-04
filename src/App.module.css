@@ -1,2 +1,9 @@
-
+.Content{
+    background-color: #15222c;
+    min-height: 100vh;
+    min-width: 100vh;
+    padding: 50px;
+    display: flex;
+    margin: 0 auto;
+}
 

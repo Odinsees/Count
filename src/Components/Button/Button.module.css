@@ -2,22 +2,24 @@
     text-align: center;
     border-radius: 10px;
     border: none;
-    margin: 20px 0 20px 0;
+    padding: 0 10px 0 10px;
     background-color: skyblue;
     font-size: 55px;
     color: #15222c;
     font-weight: 600;
+    width: fit-content;
 }
 
 .disabled {
     text-align: center;
     border-radius: 10px;
     border: none;
-    margin: 20px 0 20px 0;
     font-size: 55px;
     color: #15222c;
     font-weight: 600;
     background-color: #375969;
+    width: fit-content;
+    padding: 0 10px 0 10px;
 }
 
 button{
