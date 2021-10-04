@@ -9,10 +9,25 @@ const App = () => {
     const maxValue = 5
     const [count, setCount] = useState(startValue)
     //const onChangeHandler = (e: ChangeEvent<HTMLInputElement>): void => setCount(+e.currentTarget.value)
-    const countUpHandler = (): boolean | void => count < maxValue && setCount(count=>count + 1)
+    const countUpHandler = (): boolean | void => count < maxValue && setCount(count => count + 1)
     const countResetHandler = (): void => setCount(startValue)
-    const setLocalStorageHandler = () =>{}
-    const getLocalStorageHandler = () =>{}
+    const setLocalStorageHandler = () => {
+        localStorage.setItem("counterValue", JSON.stringify(count))
+        localStorage.setItem("counterValue +1", JSON.stringify(count + 1))
+    }
+    const getLocalStorageHandler = () => {
+        let value = localStorage.getItem("counterValue")
+        if (value) {
+            setCount(JSON.parse(value))
+        }
+    }
+    const ClearLocalStorageHandler = () => {
+        localStorage.clear()
+        setCount(0)
+    }
+    const RemoveItemFromLocalStorageHandler = () => {
+        localStorage.removeItem("counterValue +1")
+    }
     const isAddDisabled = count === maxValue
     const isResetDisabled = count < maxValue
 
@@ -39,16 +54,24 @@ const App = () => {
                             callBack={countResetHandler}
                             disabled={isResetDisabled}
                         />
-                        <Button
-                            title={"SetLS"}
-                            callBack={setLocalStorageHandler}
-                        />
-                        <Button
-                            title={"GetFromLS"}
-                            callBack={getLocalStorageHandler}
-                        />
                     </div>
                 </div>
+                <Button
+                    title={"SetLS"}
+                    callBack={setLocalStorageHandler}
+                />
+                <Button
+                    title={"GetFromLS"}
+                    callBack={getLocalStorageHandler}
+                />
+                <Button
+                    title={"ClearLS"}
+                    callBack={ClearLocalStorageHandler}
+                />
+                <Button
+                    title={"RemoveItemLS"}
+                    callBack={RemoveItemFromLocalStorageHandler}
+                />
             </div>
         </div>
     )
