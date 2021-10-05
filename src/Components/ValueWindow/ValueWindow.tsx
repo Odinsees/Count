@@ -5,27 +5,32 @@ import s from "../ValueWindow/ValueWindow.module.css";
 
 
 type PropsType = {
-    SetMaxValueCallBack: (e: ChangeEvent<HTMLInputElement>) => void
-    SetStartValueCallBack: (e: ChangeEvent<HTMLInputElement>) => void
+    SetMaxValueCallBack: (newValueMax: number) => void
+    SetStartValueCallBack: (newValueStart: number) => void
     setItemInLocalStageCallBack: () => void
     maxValue: number
     startValue: number
     errorStart: boolean
     errorMax: boolean
+    setButtonDisable: boolean
 }
 
 export const ValueWindow: React.FC<PropsType> = (props) => {
 
     const setMaxValueHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        props.SetMaxValueCallBack(e)
+        let newValueMax = +e.currentTarget.value
+        props.SetMaxValueCallBack(newValueMax)
     }
     const setStartValueHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        props.SetStartValueCallBack(e)
+        let newValueStart = +e.currentTarget.value
+        props.SetStartValueCallBack(newValueStart)
     }
 
     const setItemInLocalStorageHandler = () => {
         props.setItemInLocalStageCallBack()
     }
+
+    let setDisabled = props.errorStart || props.errorMax || props.setButtonDisable
 
     return (
         <div className={s.Wrapper}>
@@ -40,7 +45,7 @@ export const ValueWindow: React.FC<PropsType> = (props) => {
                 </div>
             </div>
             <div className={s.Button}>
-                <Button callBack={setItemInLocalStorageHandler} title={"SET"} disabled={props.errorStart || props.errorMax}/>
+                <Button callBack={setItemInLocalStorageHandler} title={"SET"} disabled={setDisabled}/>
             </div>
         </div>
     )

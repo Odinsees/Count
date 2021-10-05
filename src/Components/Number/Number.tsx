@@ -10,7 +10,7 @@ type PropsType = {
 export const Number: React.FC<PropsType> = ({value, maxValue, warning}) => {
     return (
         warning
-            ? <div className={s.WarningMessage}>enter values and press 'set'</div>
+            ? <div className={s.WarningMessage}>Enter values and press "SET"</div>
             : <div className={value === maxValue ? `${s.NumberMax} + ${s.Number}` : s.Number}>{value}</div>
     )
 

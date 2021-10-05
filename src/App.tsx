@@ -5,13 +5,13 @@ import {ValueWindow} from "./Components/ValueWindow/ValueWindow";
 
 const App = () => {
 
-
     let [maxValue, setMaxValue] = useState(0)
     let [startValue, setStartValue] = useState(0)
     let [errorStart, setErrorStart] = useState(false)
     let [errorMax, setErrorMax] = useState(false)
     let [count, setCount] = useState(0)
     let [warning, setWarning] = useState(false)
+    let [setButtonDisable, setSetButtonDisabled] = useState(true)
 
     const countUp = (): boolean | void => count < maxValue && setCount(count => count + 1)
     const countReset = (): void => setCount(startValue)
@@ -24,6 +24,7 @@ const App = () => {
         localStorage.setItem("startValue", JSON.stringify(startValue))
         setCount(startValue)
         setWarning(false)
+        setSetButtonDisabled(true)
     }
     const getLocalStorageHandler = () => {
         let startValue = localStorage.getItem("startValue")
@@ -36,25 +37,30 @@ const App = () => {
         }
     }
 
-    const setStartValueHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        if (+e.currentTarget.value >= 0 && +e.currentTarget.value < maxValue) {
+    const setStartValueHandler = (newValueStart:number) => {
+        if (newValueStart >= 0 && newValueStart < maxValue
+            && newValueStart !== maxValue && maxValue >= 0) {
             setWarning(true)
             setErrorStart(false)
+            setErrorMax(false)
         } else {
             setErrorStart(true)
         }
-        setStartValue(+e.currentTarget.value)
+        setStartValue(newValueStart)
+        setSetButtonDisabled(false)
     }
 
-    const setMaxValueHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        if (+e.currentTarget.value >= 0 && +e.currentTarget.value > startValue) {
+    const setMaxValueHandler = (newValueMax:number) => {
+        if (newValueMax >= 0 && newValueMax > startValue
+            && newValueMax !== startValue && startValue >= 0) {
             setWarning(true)
             setErrorMax(false)
             setErrorStart(false)
         } else {
             setErrorMax(true)
         }
-        setMaxValue(+e.currentTarget.value)
+        setMaxValue(newValueMax)
+        setSetButtonDisabled(false)
     }
     useEffect(() => {
         getLocalStorageHandler()
@@ -74,6 +80,7 @@ const App = () => {
                 startValue={startValue}
                 errorStart={errorStart}
                 errorMax={errorMax}
+                setButtonDisable={setButtonDisable}
             />
             <NumberWindow
                 maxValue={maxValue}
