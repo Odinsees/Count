@@ -19,13 +19,13 @@ export const NumberWindow: React.FC<PropsType> = (props) => {
     const countResetHandler = () => props.countResetCallBack()
 
     const isAddDisabled = props.count === props.maxValue || props.error || props.warning
-    const isResetDisabled = props.count < props.maxValue
+    const isResetDisabled = props.count < props.maxValue || props.error || props.warning
 
     return (
             <div className={s.Content}>
                 <div className={s.Number}>
                     {props.error
-                        ?<div>ERROR</div>
+                        ?<div className={s.ErrorMessage}>ERROR! Incorrect value in Input!</div>
                         :<Number
                             warning={props.warning}
                             maxValue={props.maxValue}

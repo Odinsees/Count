@@ -15,7 +15,7 @@ export const Input: React.FC<PropsType> = ({value, callBack,error}) => {
 
     return (
         <input
-            className={error? `${s.Input}+${s.ErrorInput}` : s.Input}
+            className={error? `${s.Input} + ${s.ErrorInput}` : s.Input}
             type="number"
             value={value}
             onChange={OnChangeHandler}

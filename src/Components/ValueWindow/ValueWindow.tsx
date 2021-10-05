@@ -10,7 +10,8 @@ type PropsType = {
     setItemInLocalStageCallBack: () => void
     maxValue: number
     startValue: number
-    error: boolean
+    errorStart: boolean
+    errorMax: boolean
 }
 
 export const ValueWindow: React.FC<PropsType> = (props) => {
@@ -28,17 +29,18 @@ export const ValueWindow: React.FC<PropsType> = (props) => {
 
     return (
         <div className={s.Wrapper}>
-            <div className={s.Input}>
-                <div>
-                    <span>Start value:</span><Input value={props.startValue} callBack={setStartValueHandler} error={props.error}/>
+            <div className={s.InputBox}>
+                <div className={s.ValueInput}>
+                    <span>Max value:</span><Input value={props.maxValue} callBack={setMaxValueHandler}
+                                                  error={props.errorMax}/>
                 </div>
-                <div>
-                    <span>Max value:</span><Input value={props.maxValue} callBack={setMaxValueHandler} error={props.error}/>
+                <div className={s.ValueInput}>
+                    <span>Start value:</span><Input value={props.startValue} callBack={setStartValueHandler}
+                                                    error={props.errorStart}/>
                 </div>
-                {props.error ? <div>Error, incorrect value!</div> : ""}
             </div>
             <div className={s.Button}>
-                <Button callBack={setItemInLocalStorageHandler} title={"SET"} disabled={props.error}/>
+                <Button callBack={setItemInLocalStorageHandler} title={"SET"} disabled={props.errorStart || props.errorMax}/>
             </div>
         </div>
     )

@@ -21,11 +21,13 @@
     grid-area: Number;
     border: 5px solid skyblue;
     border-radius: 10px;
-    background-color: skyblue;
+    background-color: #15222c;
     width: 90%;
     height: 90%;
     margin: 0 auto;
-    padding-bottom: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .Button {
@@ -38,5 +40,10 @@
     width: 90%;
     margin: 0 auto;
     padding: 10px 0 10px 0;
+}
+
+.ErrorMessage{
+    color: red;
+    font-size: 30px;
 }
 

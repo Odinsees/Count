@@ -1,15 +1,18 @@
 .Number {
     text-align: center;
-    font-size: 150px;
-    font-weight: 600;
+    font-size: 80px;
+    font-weight: 700;
     border: 10px skyblue;
     border-radius: 30px;
-    width: 100%;
-    height: 100%;
     background-color: inherit;
-    color: #15222c;
+    color: skyblue;
 }
 
 .NumberMax {
     color: red;
+}
+
+.WarningMessage{
+    color: skyblue;
+    font-size: 30px;
 }
