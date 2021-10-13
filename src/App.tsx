@@ -1,17 +1,27 @@
-import React, {ChangeEvent, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import s from "./App.module.css"
 import {NumberWindow} from "./Components/NumberWindow/NumberWindow";
 import {ValueWindow} from "./Components/ValueWindow/ValueWindow";
+import {useDispatch, useSelector} from "react-redux";
+import {AppRootStateType} from "./bll/store";
+import {setMaxValueAC, setStartValueAC} from "./bll/StartMaxValueReducer";
 
 const App = () => {
 
-    let [maxValue, setMaxValue] = useState(0)
-    let [startValue, setStartValue] = useState(0)
+    //let [maxValue, setMaxValue] = useState(0)
+    //let [startValue, setStartValue] = useState(0)
+
+    let dispatch = useDispatch()
+
+    let startValue = useSelector<AppRootStateType,number>(state => state.counter.startValue)
+    let maxValue = useSelector<AppRootStateType,number>(state => state.counter.maxValue)
+
+
     let [errorStart, setErrorStart] = useState(false)
     let [errorMax, setErrorMax] = useState(false)
     let [count, setCount] = useState(0)
     let [warning, setWarning] = useState(false)
-    let [setButtonDisable, setSetButtonDisabled] = useState(true)
+    let [disabledSetButton, setDisabledSetButton] = useState(true)
 
     const countUp = (): boolean | void => count < maxValue && setCount(count => count + 1)
     const countReset = (): void => setCount(startValue)
@@ -24,15 +34,15 @@ const App = () => {
         localStorage.setItem("startValue", JSON.stringify(startValue))
         setCount(startValue)
         setWarning(false)
-        setSetButtonDisabled(true)
+        setDisabledSetButton(true)
     }
     const getLocalStorageHandler = () => {
         let startValue = localStorage.getItem("startValue")
         let maxValue = localStorage.getItem("maxValue")
         let count = localStorage.getItem("counterValue")
         if (startValue && maxValue && count) {
-            setStartValue(JSON.parse(startValue))
-            setMaxValue(JSON.parse(maxValue))
+            dispatch(setStartValueAC(JSON.parse(startValue)))
+            dispatch(setMaxValueAC(JSON.parse(maxValue)))
             setCount(JSON.parse(count))
         }
     }
@@ -46,8 +56,8 @@ const App = () => {
         } else {
             setErrorStart(true)
         }
-        setStartValue(newValueStart)
-        setSetButtonDisabled(false)
+        dispatch(setStartValueAC(newValueStart))
+        setDisabledSetButton(false)
     }
 
     const setMaxValueHandler = (newValueMax:number) => {
@@ -59,8 +69,8 @@ const App = () => {
         } else {
             setErrorMax(true)
         }
-        setMaxValue(newValueMax)
-        setSetButtonDisabled(false)
+        dispatch(setMaxValueAC(newValueMax))
+        setDisabledSetButton(false)
     }
     useEffect(() => {
         getLocalStorageHandler()
@@ -80,7 +90,7 @@ const App = () => {
                 startValue={startValue}
                 errorStart={errorStart}
                 errorMax={errorMax}
-                setButtonDisable={setButtonDisable}
+                setButtonDisable={disabledSetButton}
             />
             <NumberWindow
                 maxValue={maxValue}
