@@ -7,7 +7,7 @@ type PropsType = {
     maxValue: number
     startValue: number
     count:number
-    countUpHandlerCallBack:()=>void
+    countUpHandlerCallBack:any
     countResetCallBack:()=>void
     error:boolean
     warning:boolean

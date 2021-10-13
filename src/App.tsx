@@ -4,47 +4,40 @@ import {NumberWindow} from "./Components/NumberWindow/NumberWindow";
 import {ValueWindow} from "./Components/ValueWindow/ValueWindow";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./bll/store";
-import {setMaxValueAC, setStartValueAC} from "./bll/StartMaxValueReducer";
+import {
+    getMaxAndStartValueInLocalStorageTC, incrementCountAC,
+    resetCountAC, setCountValueInLocalStorageTC, setMaxAndStartValueInLocalStorageTC,
+    setMaxValueAC,
+    setStartValueAC
+} from "./bll/counterReducer";
 
 const App = () => {
-
-    //let [maxValue, setMaxValue] = useState(0)
-    //let [startValue, setStartValue] = useState(0)
 
     let dispatch = useDispatch()
 
     let startValue = useSelector<AppRootStateType,number>(state => state.counter.startValue)
     let maxValue = useSelector<AppRootStateType,number>(state => state.counter.maxValue)
-
+    let count = useSelector<AppRootStateType,number>(state => state.counter.value)
 
     let [errorStart, setErrorStart] = useState(false)
     let [errorMax, setErrorMax] = useState(false)
-    let [count, setCount] = useState(0)
     let [warning, setWarning] = useState(false)
     let [disabledSetButton, setDisabledSetButton] = useState(true)
 
-    const countUp = (): boolean | void => count < maxValue && setCount(count => count + 1)
-    const countReset = (): void => setCount(startValue)
+    const countUp = () => count <= maxValue && dispatch(incrementCountAC())
+    const countReset = () => dispatch(resetCountAC(startValue))
 
-    const setLocalStorageNumberHandler = () => {
-        localStorage.setItem("counterValue", JSON.stringify(count))
+    const setLocalStorageNumberHandler = () =>{
+        setCountValueInLocalStorageTC(count)
     }
+
     const setItemInLocalStorage = () => {
-        localStorage.setItem("maxValue", JSON.stringify(maxValue))
-        localStorage.setItem("startValue", JSON.stringify(startValue))
-        setCount(startValue)
+        dispatch(setMaxAndStartValueInLocalStorageTC(startValue,maxValue,count))
         setWarning(false)
         setDisabledSetButton(true)
     }
     const getLocalStorageHandler = () => {
-        let startValue = localStorage.getItem("startValue")
-        let maxValue = localStorage.getItem("maxValue")
-        let count = localStorage.getItem("counterValue")
-        if (startValue && maxValue && count) {
-            dispatch(setStartValueAC(JSON.parse(startValue)))
-            dispatch(setMaxValueAC(JSON.parse(maxValue)))
-            setCount(JSON.parse(count))
-        }
+        dispatch(getMaxAndStartValueInLocalStorageTC())
     }
 
     const setStartValueHandler = (newValueStart:number) => {
