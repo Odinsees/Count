@@ -5,9 +5,9 @@ import {ValueWindow} from "./Components/ValueWindow/ValueWindow";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./bll/store";
 import {
-    getMaxAndStartValueInLocalStorageTC, incrementCountAC,
-    resetCountAC, setCountValueInLocalStorageTC, setMaxAndStartValueInLocalStorageTC,
-    setMaxValueAC,
+    getMaxAndStartValueInLocalStorageTC, setCountItemFromLocalStorageTS,
+    setCountValueInLocalStorageTC, setMaxAndStartValueInLocalStorageTC,
+    setMaxValueAC, setResetCountValueInLocalStorageTC,
     setStartValueAC
 } from "./bll/counterReducer";
 
@@ -17,18 +17,18 @@ const App = () => {
 
     let startValue = useSelector<AppRootStateType,number>(state => state.counter.startValue)
     let maxValue = useSelector<AppRootStateType,number>(state => state.counter.maxValue)
-    let count = useSelector<AppRootStateType,number>(state => state.counter.value)
+    const count = useSelector<AppRootStateType,number>(state => state.counter.value)
 
     let [errorStart, setErrorStart] = useState(false)
     let [errorMax, setErrorMax] = useState(false)
     let [warning, setWarning] = useState(false)
     let [disabledSetButton, setDisabledSetButton] = useState(true)
 
-    const countUp = () => count <= maxValue && dispatch(incrementCountAC())
-    const countReset = () => dispatch(resetCountAC(startValue))
+    const countUp = () => count <= maxValue && dispatch(setCountValueInLocalStorageTC(count))
+    const countReset = () => dispatch(setResetCountValueInLocalStorageTC(startValue))
 
     const setLocalStorageNumberHandler = () =>{
-        setCountValueInLocalStorageTC(count)
+        setCountItemFromLocalStorageTS(count)
     }
 
     const setItemInLocalStorage = () => {
@@ -99,3 +99,4 @@ const App = () => {
 }
 
 export default App;
+

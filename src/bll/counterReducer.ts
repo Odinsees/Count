@@ -70,21 +70,25 @@ export const incrementCountAC = () =>{
 
 //thunk
 
-/*export const incCountTC = (count:number)=> (dispatch:Dispatch)=>{
+export const setCountItemFromLocalStorageTS = (count:number) => {
     localStorage.setItem("counterValue", JSON.stringify(count))
-    dispatch(incrementCountAC())
-}*/
+}
 
 export const setCountValueInLocalStorageTC = (count:number)=> (dispatch:Dispatch)=>{
     localStorage.setItem("counterValue", JSON.stringify(count + 1))
     dispatch(incrementCountAC())
 }
 
+export const setResetCountValueInLocalStorageTC = (startValue:number)=> (dispatch:Dispatch)=>{
+    localStorage.setItem("counterValue", JSON.stringify(startValue))
+    dispatch(resetCountAC(startValue))
+}
+
 export const setMaxAndStartValueInLocalStorageTC = (startValue:number, maxValue:number, count:number)=> (dispatch:Dispatch)=>{
     localStorage.setItem("startValue", JSON.stringify(startValue))
     localStorage.setItem("maxValue", JSON.stringify(maxValue))
-    localStorage.setItem("counterValue", JSON.stringify(count + 1))
-    dispatch(resetCountAC(startValue))
+    localStorage.setItem("counterValue", JSON.stringify(count))
+    dispatch(setCountAC(startValue))
 }
 
 export const getMaxAndStartValueInLocalStorageTC = ()=> (dispatch:Dispatch)=>{
