@@ -11,6 +11,7 @@ type PropsType = {
     countResetCallBack:()=>void
     error:boolean
     warning:boolean
+    greeting:boolean
 }
 
 export const NumberWindow: React.FC<PropsType> = (props) => {
@@ -19,18 +20,20 @@ export const NumberWindow: React.FC<PropsType> = (props) => {
     const countResetHandler = () => props.countResetCallBack()
 
     const isAddDisabled = props.count === props.maxValue || props.error || props.warning
-    const isResetDisabled = props.count < props.maxValue || props.error || props.warning
+    const isResetDisabled = props.count < props.maxValue || props.error || props.warning || props.greeting
 
     return (
             <div className={s.Content}>
                 <div className={s.Number}>
-                    {props.error
-                        ?<div className={s.ErrorMessage}>ERROR! Incorrect value in Input!</div>
-                        :<Number
-                            warning={props.warning}
-                            maxValue={props.maxValue}
-                            value={props.count}
-                        />
+                    {props.greeting
+                        ? <div className={s.WarningMessage}>Hi! Set start and max value</div>
+                        :props.error
+                            ?<div className={s.ErrorMessage}>ERROR! Incorrect value in Input!</div>
+                            :<Number
+                                warning={props.warning}
+                                maxValue={props.maxValue}
+                                value={props.count}
+                            />
                     }
                 </div>
                 <div className={s.Button}>

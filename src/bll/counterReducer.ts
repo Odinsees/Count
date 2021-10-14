@@ -1,4 +1,3 @@
-import {Dispatch} from "redux";
 
 type InitialStateType = typeof initialState
 
@@ -8,11 +7,13 @@ type ActionType =
     |ReturnType<typeof resetCountAC>
     |ReturnType<typeof incrementCountAC>
     |ReturnType<typeof setCountAC>
+    |ReturnType<typeof setGreetingAC>
 
 let initialState = {
     startValue:0,
     maxValue:0,
-    value:0
+    value:0,
+    greeting:true
 }
 
 export const counterReducer = (state:InitialStateType = initialState, action:ActionType):InitialStateType =>{
@@ -38,13 +39,19 @@ export const counterReducer = (state:InitialStateType = initialState, action:Act
         case "RESET-COUNT":{
             return {
                 ...state,
-                value: action.startValue
+                value: state.startValue
             }
         }
         case "INCREMENT-COUNT":{
             return {
                 ...state,
                 value: state.value + 1
+            }
+        }
+        case "SET-GREETING":{
+            return {
+                ...state,
+                greeting: action.newValue
             }
         }
         default: return state
@@ -61,43 +68,14 @@ export const setMaxValueAC = (newMaxValue:number) =>{
 export const setCountAC = (newCountValue:number) =>{
     return{type: "SET-COUNT-VALUE", newCountValue} as const
 }
-export const resetCountAC = (startValue:number) =>{
-    return{type: "RESET-COUNT", startValue} as const
+export const resetCountAC = () =>{
+    return{type: "RESET-COUNT"} as const
 }
 export const incrementCountAC = () =>{
     return {type: "INCREMENT-COUNT"} as const
 }
 
-//thunk
-
-export const setCountItemFromLocalStorageTS = (count:number) => {
-    localStorage.setItem("counterValue", JSON.stringify(count))
+export const setGreetingAC = (newValue:boolean) =>{
+    return{type: "SET-GREETING", newValue} as const
 }
 
-export const setCountValueInLocalStorageTC = (count:number)=> (dispatch:Dispatch)=>{
-    localStorage.setItem("counterValue", JSON.stringify(count + 1))
-    dispatch(incrementCountAC())
-}
-
-export const setResetCountValueInLocalStorageTC = (startValue:number)=> (dispatch:Dispatch)=>{
-    localStorage.setItem("counterValue", JSON.stringify(startValue))
-    dispatch(resetCountAC(startValue))
-}
-
-export const setMaxAndStartValueInLocalStorageTC = (startValue:number, maxValue:number, count:number)=> (dispatch:Dispatch)=>{
-    localStorage.setItem("startValue", JSON.stringify(startValue))
-    localStorage.setItem("maxValue", JSON.stringify(maxValue))
-    localStorage.setItem("counterValue", JSON.stringify(count))
-    dispatch(setCountAC(startValue))
-}
-
-export const getMaxAndStartValueInLocalStorageTC = ()=> (dispatch:Dispatch)=>{
-    let startValue = localStorage.getItem("startValue")
-    let maxValue = localStorage.getItem("maxValue")
-    let count = localStorage.getItem("counterValue")
-    if (startValue && maxValue && count) {
-        dispatch(setStartValueAC(JSON.parse(startValue)))
-        dispatch(setMaxValueAC(JSON.parse(maxValue)))
-        dispatch(setCountAC(JSON.parse(count)))
-    }
-}

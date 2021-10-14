@@ -12,7 +12,7 @@ export const Button: React.FC<PropsType> = ({callBack, disabled, title}) => {
 
     return (
         <button
-            className={!disabled ? s.button : s.disabled}
+            className={disabled ? s.disabled : s.button}
             disabled={disabled}
             onClick={callBack}
         >

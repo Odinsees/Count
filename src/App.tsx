@@ -1,13 +1,12 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import s from "./App.module.css"
 import {NumberWindow} from "./Components/NumberWindow/NumberWindow";
 import {ValueWindow} from "./Components/ValueWindow/ValueWindow";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./bll/store";
 import {
-    getMaxAndStartValueInLocalStorageTC, setCountItemFromLocalStorageTS,
-    setCountValueInLocalStorageTC, setMaxAndStartValueInLocalStorageTC,
-    setMaxValueAC, setResetCountValueInLocalStorageTC,
+    incrementCountAC, resetCountAC, setGreetingAC,
+    setMaxValueAC,
     setStartValueAC
 } from "./bll/counterReducer";
 
@@ -18,26 +17,22 @@ const App = () => {
     let startValue = useSelector<AppRootStateType,number>(state => state.counter.startValue)
     let maxValue = useSelector<AppRootStateType,number>(state => state.counter.maxValue)
     const count = useSelector<AppRootStateType,number>(state => state.counter.value)
+    let greeting = useSelector<AppRootStateType,boolean>(state => state.counter.greeting)
 
     let [errorStart, setErrorStart] = useState(false)
     let [errorMax, setErrorMax] = useState(false)
     let [warning, setWarning] = useState(false)
     let [disabledSetButton, setDisabledSetButton] = useState(true)
 
-    const countUp = () => count <= maxValue && dispatch(setCountValueInLocalStorageTC(count))
-    const countReset = () => dispatch(setResetCountValueInLocalStorageTC(startValue))
-
-    const setLocalStorageNumberHandler = () =>{
-        setCountItemFromLocalStorageTS(count)
-    }
+    const countUp = () => count <= maxValue && dispatch(incrementCountAC())
+    const countReset = () => dispatch(resetCountAC())
 
     const setItemInLocalStorage = () => {
-        dispatch(setMaxAndStartValueInLocalStorageTC(startValue,maxValue,count))
+        dispatch(setStartValueAC(startValue))
+        dispatch(setMaxValueAC(maxValue))
+        dispatch(resetCountAC())
         setWarning(false)
         setDisabledSetButton(true)
-    }
-    const getLocalStorageHandler = () => {
-        dispatch(getMaxAndStartValueInLocalStorageTC())
     }
 
     const setStartValueHandler = (newValueStart:number) => {
@@ -46,6 +41,7 @@ const App = () => {
             setWarning(true)
             setErrorStart(false)
             setErrorMax(false)
+            dispatch(setGreetingAC(false))
         } else {
             setErrorStart(true)
         }
@@ -59,20 +55,13 @@ const App = () => {
             setWarning(true)
             setErrorMax(false)
             setErrorStart(false)
+            dispatch(setGreetingAC(false))
         } else {
             setErrorMax(true)
         }
         dispatch(setMaxValueAC(newValueMax))
         setDisabledSetButton(false)
     }
-    useEffect(() => {
-        getLocalStorageHandler()
-    }, [])
-
-    useEffect(() => {
-        setLocalStorageNumberHandler()
-    }, [count])
-
     return (
         <div className={s.Content}>
             <ValueWindow
@@ -93,6 +82,7 @@ const App = () => {
                 countResetCallBack={countReset}
                 error={errorStart || errorMax}
                 warning={warning}
+                greeting={greeting}
             />
         </div>
     )
