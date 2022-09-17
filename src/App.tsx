@@ -81,7 +81,6 @@ const App = () => {
   };
   return (
     <div className={s.Content}>
-      <div>123232131</div>
       <ValueWindow
         SetMaxValueCallBack={setMaxValueHandler}
         SetStartValueCallBack={setStartValueHandler}
